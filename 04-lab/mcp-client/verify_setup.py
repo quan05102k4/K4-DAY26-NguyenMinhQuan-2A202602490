@@ -14,20 +14,20 @@ def check_environment():
     env_file = Path(".env")
     if not env_file.exists():
         print("❌ .env file not found")
-        print("   Run: echo 'GOOGLE_API_KEY=your_key' > .env")
+        print("   Run: echo 'OPENAI_API_KEY=your_key' > .env")
         return False
-    
-    # Check if GOOGLE_API_KEY is set
+
+    # Check if OPENAI_API_KEY is set (agent dùng model OpenAI qua LiteLLM)
     from dotenv import load_dotenv
     load_dotenv()
-    
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key or api_key == "your_google_api_key_here":
-        print("❌ GOOGLE_API_KEY not configured in .env")
-        print("   Get key from: https://aistudio.google.com/apikey")
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key or api_key == "your_openai_api_key_here":
+        print("❌ OPENAI_API_KEY not configured in .env")
+        print("   Get key from: https://platform.openai.com/api-keys")
         return False
-    
-    print(f"✅ GOOGLE_API_KEY configured ({api_key[:10]}...)")
+
+    print(f"✅ OPENAI_API_KEY configured ({api_key[:10]}...)")
     return True
 
 def check_dependencies():
@@ -37,6 +37,7 @@ def check_dependencies():
     required_packages = [
         ("google.adk", "Google ADK"),
         ("google.generativeai", "Google Generative AI"),
+        ("litellm", "LiteLLM (OpenAI)"),
         ("mcp", "MCP"),
         ("fastmcp", "FastMCP"),
         ("dotenv", "python-dotenv"),
@@ -54,7 +55,7 @@ def check_dependencies():
     
     if not all_installed:
         print("\n   Install with: uv sync")
-        print("   Or: pip install google-adk google-generativeai mcp fastmcp python-dotenv httpx")
+        print("   Or: pip install google-adk google-generativeai litellm mcp fastmcp python-dotenv httpx")
     
     return all_installed
 
